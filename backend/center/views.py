@@ -1,9 +1,10 @@
+import csv
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.template import loader
-from .models import center, owner, registration, inspection
 from django.utils import timezone
-
+from .models import center, owner, registration, inspection, account
+from .forms import uploadFileForm
 
 def center1(request):
     template = loader.get_template('myfirst.html')
@@ -558,3 +559,213 @@ def forecast_expired_month_Country(request):
     Res.append({"Ds": data_list})
     data = list(Res)
     return JsonResponse(data, safe=False, json_dumps_params={'ensure_ascii': False})
+
+
+#for forms and statistics
+def upload_reg_file(request):
+    if request.method == 'POST':
+        form = uploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            file = request.FILES['file']
+            reader = csv.reader(file)
+            for row in reader:
+                reg = registration(id=row[0], plate=row[1], reg_date=row[2], place=row[3], car_des=row[4], purpose=row[5], owner_id_id=row[6])
+                reg.save()
+            return render(request, '.html')
+    else:
+        form = uploadFileForm()
+    return render(request, 'upload/upload.html', {'form': form})
+
+ 
+def get_number_of_cars_inspected_by_month(request):
+    Res = []
+    center_list = center.objects.all()
+    inspection_list = inspection.objects.all()
+    for val in center_list:
+        data_list = []
+        for month in range(1, 13):
+            count = 0
+            for dat in inspection_list:
+                if val.id == dat.center_id.id:
+                    if dat.exp_date.month == month:
+                        count += 1
+            data_list.append({'month': month, 'count': count})
+        Res.append({"Name_center": val.name, "Ds": data_list})
+    data = list(Res)
+    return JsonResponse(data, safe=False, json_dumps_params={'ensure_ascii': False})
+
+def get_number_of_cars_inspected_by_quarter(request):
+    Res = []
+    center_list = center.objects.all()
+    inspection_list = inspection.objects.all()
+    for val in center_list:
+        data_list = []
+        for quarter in range(1, 5):
+            count = 0
+            for dat in inspection_list:
+                if val.id == dat.center_id.id:
+                    if (dat.exp_date.month - 1) // 3 + 1 == quarter:
+                        count += 1
+            data_list.append({'quarter': quarter, 'count': count})
+        Res.append({"Name_center": val.name, "Ds": data_list})
+    data = list(Res)
+    return JsonResponse(data, safe=False, json_dumps_params={'ensure_ascii': False})
+
+def get_number_of_cars_inspected_by_year(request):
+    Res = []
+    center_list = center.objects.all()
+    inspection_list = inspection.objects.all()
+    for val in center_list:
+        data_list = []
+        for year in range(2010, timezone.now().year + 1):
+            count = 0
+            for dat in inspection_list:
+                if val.id == dat.center_id.id:
+                    if dat.exp_date.year == year:
+                        count += 1
+            data_list.append({'year': year, 'count': count})
+        Res.append({"Name_center": val.name, "Ds": data_list})
+    data = list(Res)
+    return JsonResponse(data, safe=False, json_dumps_params={'ensure_ascii': False})
+
+
+
+
+def get_forecast(request):
+    data = {}
+    data['centers'] = []
+    data['areas'] = []
+    data['country'] = []
+    data['forecast_centers'] = []
+    data['forecast_areas'] = []
+    data['forecast_country'] = []
+    center_list = center.objects.all()
+    inspection_list = inspection.objects.all()
+    for val in center_list:
+        center_data = {}
+        center_data['name'] = val.name
+        center_data['count'] = 0
+        for dat in inspection_list:
+            if val.id == dat.center_id.id:
+                monthis = dat.exp_date.month
+                yearis = dat.exp_date.year
+                current_month = timezone.now().month
+                current_year = timezone.now().year
+                if (monthis == current_month) & (yearis == current_year) :
+                    center_data['count'] += 1
+        data['centers'].append(center_data)
+    for AREA in range(3):
+        area_data = {}
+        if AREA == 0:
+            nameA = "Miền Bắc"
+        if AREA == 1:
+            nameA = "Miền Trung"
+        if AREA == 2:
+            nameA = "Miền Nam"
+        area_data['name'] = nameA
+        area_data['count'] = 0
+        for val in center_list:
+            if val.region == nameA:   
+                for dat in inspection_list:
+                    if val.id == dat.center_id.id:
+                        monthis = dat.exp_date.month
+                        yearis = dat.exp_date.year
+                        current_month = timezone.now().month
+                        current_year = timezone.now().year
+                        if (monthis == current_month) & (yearis == current_year) :
+                            area_data['count'] += 1
+        data['areas'].append(area_data)
+    country_data = {}
+    country_data['count'] = 0
+    for val in center_list:
+        for dat in inspection_list:
+            if val.id == dat.center_id.id:
+                monthis = dat.exp_date.month
+                yearis = dat.exp_date.year
+                current_month = timezone.now().month
+                current_year = timezone.now().year
+                if (monthis == current_month) & (yearis == current_year) :
+                    country_data['count'] += 1
+    data['country'].append(country_data)
+    for val in center_list:
+        center_data = {}
+        center_data['name'] = val.name
+        center_data['count'] = 0
+        for dat in inspection_list:
+            if val.id == dat.center_id.id:
+                monthis = dat.exp_date.month
+                yearis = dat.exp_date.year
+                current_month = timezone.now().month
+                current_year = timezone.now().year
+                if (monthis <= current_month) & (yearis <= current_year) :
+                    center_data['count'] += 1
+        data['forecast_centers'].append(center_data)
+    for AREA in range(3):
+        area_data = {}
+        if AREA == 0:
+            nameA = "Miền Bắc"
+        if AREA == 1:
+            nameA = "Miền Trung"
+        if AREA == 2:
+            nameA = "Miền Nam"
+        area_data['name'] = nameA
+        area_data['count'] = 0
+        for val in center_list:
+            if val.region == nameA:   
+                for dat in inspection_list:
+                    if val.id == dat.center_id.id:
+                        monthis = dat.exp_date.month
+                        yearis = dat.exp_date.year
+                        current_month = timezone.now().month
+                        current_year = timezone.now().year
+                        if (monthis <= current_month) & (yearis <= current_year) :
+                            area_data['count'] += 1
+        data['forecast_areas'].append(area_data)
+    country_data = {}
+    country_data['count'] = 0
+    for val in center_list:
+        for dat in inspection_list:
+            if val.id == dat.center_id.id:
+                monthis = dat.exp_date.month
+                yearis = dat.exp_date.year
+                current_month = timezone.now().month
+                current_year = timezone.now().year
+                if (monthis <= current_month) & (yearis <= current_year) :
+                    country_data['count'] += 1
+    data['forecast_country'].append(country_data)
+    return JsonResponse(data, safe=False, json_dumps_params={'ensure_ascii': False})
+    
+def complete_inspection(request):
+    if request.method == 'POST':
+        center_id = request.POST.get('center_id')
+        reg_id = request.POST.get('id')
+        reg = registration.objects.get(id=reg_id)
+        inspection_obj = inspection(reg_id=reg, center_id=center_id, insp_date=timezone.now())
+        inspection_obj.save()
+        return HttpResponse('Inspection completed successfully')
+    else:
+        return HttpResponse('Invalid request method')
+
+def add_center_account(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        acc = account(username = data['username'],password = data['password'],role = data['role'],center_id = data['center_id'])
+        acc.save()
+        return HttpResponse('Center added successfully')
+    else:
+        return HttpResponse('Invalid request method')
+
+
+import json
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+@csrf_exempt
+# def add_center_account(request):
+def test(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        print(data)
+        print(request.POST.get('out'))
+        return HttpResponse('Inspection completed successfully')
+    else:
+        return HttpResponse('Invalid request method')

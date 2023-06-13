@@ -33,4 +33,15 @@ urlpatterns = [
          name='forecast_expired_month_Area'),
     path('forecast_expired_month_Country/', views.forecast_expired_month_Country,
          name='forecast_expired_month_Country'),
+
+    path('get_number_of_cars_inspected_by_month/', views.get_number_of_cars_inspected_by_month,
+         name='get_number_of_cars_inspected_by_month'),
+    path('get_number_of_cars_inspected_by_quarter/', views.get_number_of_cars_inspected_by_quarter,
+         name='get_number_of_cars_inspected_by_quarter'),
+    path('get_number_of_cars_inspected_by_year/', views.get_number_of_cars_inspected_by_year,
+         name='get_number_of_cars_inspected_by_year'),
+    
+    path('get_forecast/', views.get_forecast, name='get_forecast'),
+    path('complete_inspection/', views.complete_inspection, name='complete_inspection'),
+    path('test/',views.test,name='test'),
 ]
