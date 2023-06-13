@@ -19,17 +19,17 @@ const Layout2 = () => {
                         <div className="layout2__info__car layout2__info__block">
                             <h3>Thông tin xe</h3>
                             <span>Các thông tin cơ bản của phương tiện</span>
-                            <Input />
-                            <Input />
+                            <Input name="Biển kiếm soát" />
+                            <Input name='Mã số đăng kiểm' />
                             <Input placeholder="" name="Mục đích sử dụng" type="text" />
                         </div>
 
                         <div className="layout2__info__car layout2__info__block">
                             <h3>Thông tin chủ xe</h3>
                             <span>Các thông tin cơ bản của chủ sở hữu phương tiện</span>
-                            <Input />
-                            <Input />
-                            <Input />
+                            <Input name='Tên' />
+                            <Input name='Nơi đăng kí thường trú' />
+                            <Input name='Quê quán' />
                         </div>
                     </form>
                 </div>
