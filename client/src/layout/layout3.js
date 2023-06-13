@@ -4,6 +4,8 @@ import '../assets/table/table.css';
 
 const Layout3 = () => {
 
+    const plate = ['78 T6 04129', '12 H7 12390', '42 M8 92833', '29 Y8 12372', '92 A8 02397', '12 A8 09128', '23 Q8 12938', '76 F7 91239'];
+
     const [dataCenter, setDataCenter] = useState([]);
 
     const [dataInspection, setDataInspection] = useState([]);
@@ -49,18 +51,23 @@ const Layout3 = () => {
         return validInspection;
     }
 
+    const [carNumber, setCarNumber] = useState('N/A');
+    const [status, setStatus] = useState('N/A');
+
     const getCarNumber = async (center_id_id, req_id_id) => {
         try {
             const response = await fetch(`http://127.0.0.1:8000/get_plate_status/?key1=${center_id_id}&key2=${req_id_id}`);
             const jsonData = await response.json();
-            console.log(jsonData);
+            setCarNumber(jsonData[0].Plate);
+            // console.log(jsonData[0].Plate)
+            setStatus(jsonData[0].status);
         } catch (error) {
             console.log('Error fetching data:', error);
         }
 
     }
 
-    getCarNumber(359309, 656484)
+
 
     return (
         <div className='cover'>
@@ -93,13 +100,16 @@ const Layout3 = () => {
                         </thead>
                         <tbody>
                             {getValidInspection().map((item, index) => {
+                                getCarNumber(item.center_id_id, item.req_id_id);
                                 return (
                                     <tr>
                                         <td>{index + 1}</td>
-                                        <td>99999</td>
+                                        <td>{
+                                            plate[index]
+                                        }</td>
                                         <td>{item.insp_date}</td>
                                         <td>{item.exp_date}</td>
-                                        <td>{item.status || "Chưa hết hạn"}</td>
+                                        <td>{"Chưa hết hạn"}</td>
                                     </tr>
                                 )
                             })}

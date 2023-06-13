@@ -24,7 +24,6 @@ const LandingPage = () => {
             () => ScrollToTop()
         }>
             <Navigation />
-
             <LayoutRouter />
         </div>
     );
