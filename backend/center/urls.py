@@ -44,4 +44,5 @@ urlpatterns = [
     path('get_forecast/', views.get_forecast, name='get_forecast'),
     path('complete_inspection/', views.complete_inspection, name='complete_inspection'),
     path('test/',views.test,name='test'),
+     path('get_plate_status/', views.get_plate_status, name='get_plate_status'),
 ]
