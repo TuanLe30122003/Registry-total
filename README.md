@@ -27,7 +27,6 @@ Addtional
 superuser for admin
     username: admin
     password: int3306
-    mail: ngoduchuy71123@gmail.com
 
 Development guide
 ---------
