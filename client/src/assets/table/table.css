@@ -1,0 +1,45 @@
+table {
+    border-radius: 10px;
+    border-collapse: collapse;
+    /* border: 1px solid #000; */
+    padding: 10px;
+    width: 60vw;
+}
+
+thead {
+    background-color: blueviolet;
+    color: #fff;
+}
+
+th,
+td {
+    padding: 10px;
+    /* border: 1px solid #000; */
+    width: 120px;
+    text-align: center;
+    height: 30px;
+}
+
+.chooseCenter select {
+    padding: 10px;
+    appearance: none;
+    border-radius: 10px;
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+.chooseCenter {
+    margin: 40px 0;
+}
+
+.tableContainer {
+    overflow: hidden;
+    border-radius: 20px;
+    /* padding: 20px; */
+    border: 1px solid #000;
+    width: fit-content;
+}
+
+.cover {
+    margin: 120px 0;
+}

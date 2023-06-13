@@ -3,7 +3,10 @@ import Layout1 from "./layout1";
 import Layout2 from "./layout2";
 import Layout3 from "./layout3";
 
+import { useEffect } from 'react';
+
 const LayoutRouter = () => {
+
     return (
         <Routes>
             <Route exact path="/" element={<Layout1 />} />

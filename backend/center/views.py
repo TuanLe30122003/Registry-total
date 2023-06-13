@@ -558,3 +558,20 @@ def forecast_expired_month_Country(request):
     Res.append({"Ds": data_list})
     data = list(Res)
     return JsonResponse(data, safe=False, json_dumps_params={'ensure_ascii': False})
+
+def get_plate_status(request):
+    key1 = request.GET.get('key1')
+    key2 = request.GET.get('key2')  
+    f1 = inspection.objects.filter(center_id=key1, reg_id=key2)
+    # exp_date = f1.objects.get().exp_date
+    f2 = registration.objects.filter(id=key2)
+    # plate_car = f2.get().plate
+    plate_car = []
+    Res = []
+    status = 1
+    # if (exp_date.month < timezone.now().month) & (exp_date.year < timezone.now().year):
+        # status = 0
+    # Res.append({'Plate' : plate_car, 'status' : status})
+    Res.append({'a':f1,'b':f2})
+    data = list(Res)
+    return JsonResponse(data, safe=False, json_dumps_params={'ensure_ascii': False})

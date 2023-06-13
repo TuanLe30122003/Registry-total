@@ -33,4 +33,6 @@ urlpatterns = [
          name='forecast_expired_month_Area'),
     path('forecast_expired_month_Country/', views.forecast_expired_month_Country,
          name='forecast_expired_month_Country'),
+
+     path('get_plate_status/', views.get_plate_status, name='get_plate_status'),
 ]
