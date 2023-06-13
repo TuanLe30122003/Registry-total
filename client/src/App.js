@@ -1,24 +1,16 @@
-import './App.css';
-import MainPage from './mainPageLayout/mainPage';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Auth from './loginAndRegist/Auth';
-import Landing from './landing/landing';
-import AuthContextProvider, { AuthContext } from './contexts/AuthContext';
+import LandingPage from "./landingPage/landingPage";
+import "./assets/cssFiles/app.css";
 
 function App() {
   return (
     <>
-      <AuthContextProvider>
-      <Router>
-        <Routes>
-          <Route exact path="/" element={<Landing />} />
-          <Route exact path="/login" element={<Auth authRoute='login' />} />
-          <Route exact path="/register" element={<Auth authRoute='register' />} />
-        </Routes>
-      </Router>
-      </AuthContextProvider>
+      <div className="webCover">
+        {/* Displaying the navigation here */}
+
+        <LandingPage />
+      </div>
     </>
-  )
+  );
 }
 
 export default App;
