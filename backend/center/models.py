@@ -1,3 +1,5 @@
+from typing import Iterable, Optional
+from datetime import timedelta
 from django.db import models
 
 class center(models.Model):
@@ -27,6 +29,17 @@ class inspection(models.Model):
     exp_date = models.DateField()
     center_id = models.ForeignKey(center, on_delete=models.CASCADE)
     reg_id = models.ForeignKey(registration, on_delete=models.CASCADE)
+    
+    def save(self, *args, **kwargs):
+        if not self.id:
+            # Set the id field to the next available integer
+            max_id = inspection.objects.aggregate(models.Max('id'))['id__max']
+            self.id = 1 if max_id is None else max_id + 1
+        
+        # Set the exp_date field to one year after the insp_date
+        self.exp_date = self.insp_date + timedelta(days=365)
+        
+        super(inspection, self).save(*args, **kwargs)
 
 # class account(models.Model):
 #     id = models.IntegerField(primary_key=True)
@@ -42,5 +55,10 @@ class account(models.Model):
     place = models.CharField(max_length=20)
     
     def save(self, *args, **kwargs):
+        if not self.id:
+            # Set the id field to the next available integer
+            max_id = inspection.objects.aggregate(models.Max('id'))['id__max']
+            self.id = 1 if max_id is None else max_id + 1
+            
         self.password = make_password(self.password)
         super(account, self).save(*args, **kwargs)
