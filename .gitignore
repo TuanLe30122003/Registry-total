@@ -1,1 +1,4 @@
 pyenv/
+Registry-total.code-workspace
+backend/backend/__pycache__/
+backend/center/__pycache__/

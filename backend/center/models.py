@@ -28,4 +28,19 @@ class inspection(models.Model):
     center_id = models.ForeignKey(center, on_delete=models.CASCADE)
     reg_id = models.ForeignKey(registration, on_delete=models.CASCADE)
 
+# class account(models.Model):
+#     id = models.IntegerField(primary_key=True)
+#     username = models.CharField(max_length=20, unique=True)
+#     password = models.CharField(max_length=20)
+#     role = models.CharField(max_length=10)
+from django.contrib.auth.hashers import make_password
 
+class account(models.Model):
+    id = models.IntegerField(primary_key=True)
+    username = models.CharField(max_length=20, unique=True)
+    password = models.CharField(max_length=128)
+    place = models.CharField(max_length=20)
+    
+    def save(self, *args, **kwargs):
+        self.password = make_password(self.password)
+        super(account, self).save(*args, **kwargs)

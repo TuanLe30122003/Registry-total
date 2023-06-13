@@ -1,6 +1,6 @@
 # Registry-total
 
-Dev guide
+Installation guide
 ---------
 open terminal in project root (powershell)
 1. Install python 3.8.5
@@ -13,12 +13,31 @@ open terminal in project root (powershell)
     pyenv/scripts/activate.ps1
     py -m pip install Django
     ```
-4. Run server
+
+Run
+---------
+Run server
     ```bash
     cd backend
     python manage.py runserver
     ```
+    
+Addtional
+---------
 superuser for admin
     username: admin
     password: int3306
     mail: ngoduchuy71123@gmail.com
+
+Development guide
+---------
+1. Create new app
+    ```bash
+    python manage.py startapp <app_name>
+    ```
+2. After create new model
+    ```bash
+    python manage.py makemigrations <app_name>
+    python manage.py migrate <app_name>
+    ```
+    add to admin.py register
