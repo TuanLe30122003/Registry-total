@@ -1,0 +1,73 @@
+.navigation__logo h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem;
+    background: -webkit-linear-gradient(0deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 52%, rgba(0, 212, 255, 1) 100%);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    width: 300px;
+}
+
+.navigation {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding: 16px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 52px;
+    background-color: #fff;
+}
+
+.navigation__logo {
+    display: flex;
+    flex-direction: row;
+    flex-basis: 20%;
+    justify-content: center;
+    align-items: center;
+}
+
+.navigation__logo img {
+    width: 50px;
+    height: 50px;
+}
+
+.navigation__menu {
+    flex-basis: 60%;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+}
+
+.navigation__menu ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    font-family: Roobert, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+.navigation__menu ul li {
+    list-style: none;
+    /* background-color: aqua; */
+    border-radius: 10px;
+    padding: 24px 10px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    opacity: 0.5;
+    transition: 0.3s;
+}
+
+.navigation__menu ul li:hover {
+    opacity: 1;
+}
+
+.navigation__auth {
+    flex-basis: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

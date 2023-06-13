@@ -1,0 +1,13 @@
+.webCover {
+    width: 100%;
+    height: 100vh;
+    font-family: 'Inter', sans-serif;
+    box-sizing: border-box;
+}
+
+@import 'aos/dist/aos.css';
+
+a {
+    text-decoration: none;
+    color: #000;
+}

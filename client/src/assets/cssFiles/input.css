@@ -1,0 +1,42 @@
+/* From uiverse.io by @alexruix */
+.input {
+    line-height: 28px;
+    border: 2px solid transparent;
+    border-bottom-color: #fff;
+    padding: .2rem 0;
+    outline: none;
+    background-color: transparent;
+    color: #e6edf3;
+    font-size: 14px;
+    padding: .4rem 1rem;
+    transition: .15s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.input:focus,
+input:hover {
+    outline: none;
+    border-radius: 1rem;
+    border-color: #7a9cc6;
+}
+
+.input::placeholder {
+    color: #fff;
+}
+
+.input:focus::placeholder {
+    opacity: 0;
+    transition: opacity .3s;
+}
+
+label>h3 {
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+label {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: left;
+    align-items: center;
+}
